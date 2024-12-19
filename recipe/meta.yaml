@@ -7,30 +7,31 @@ package:
 
 source:
   # No upstream tag
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
+  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
   sha256: 6f79188d842c13177c9c0558845442c340b43011bf67dfef1dfc3bc067506409
 
 build:
   noarch: python
   script: {{ PYTHON }} -m pip install . -vv
-  number: 0
+  number: 1
 
 requirements:
   build:
     - setuptools >=42
   host:
     - pip
-    - python >=3.6
+    - python {{ python_min }}
   run:
     - googleapis-common-protos
     - protobuf >=4.21.0
-    - python >=3.6
+    - python >={{ python_min }}
 
 test:
   imports:
     - protoc_gen_openapiv2
   requires:
     - pip
+    - python {{ python_min }}
   commands:
     - pip check
   downstreams:
